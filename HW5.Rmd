@@ -1,0 +1,18 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r question 1}
+################################################################################
+#               Generate a plot with data by time and symptom                  #
+################################################################################
+library(tidyverse)
+library(ggthemes)
+
+hw5 <- read.csv('HW5 LongitudinalStudy.csv')
+hw5 <- hw5[!(is.na(hw5$Subject)),] #drop  NAs
+
+hw5 %>% group_by(Hours,characteristics_ch1.3) %>% summarise(Mean=mean(IFITM3),sd=sd(IFITM3),lower=Mean-sd,upper=Mean+sd) %>% ggplot(aes(x=Hours,y=Mean,color=characteristics_ch1.3))+geom_line()+geom_errorbar(aes(ymin=lower,ymax=upper), width=2,alpha=.3)+
+  ggtitle("Mean IFITM3 by Hour")+ylab("Mean IFITM3 Level")+theme_fivethirtyeight()+scale_color_fivethirtyeight()
+```
